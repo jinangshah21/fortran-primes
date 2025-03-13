@@ -25,14 +25,14 @@
 module prime_constants
 
     use iso_fortran_env
-    use iso_c_binding, only: c_bool,c_int128_t
+    use iso_c_binding, only: c_bool
 
     implicit none
     public
 
     integer     , parameter :: IP          = int32
     integer     , parameter :: WP          = int64
-    integer     , parameter :: QP          = c_int128_t
+    integer     , parameter :: QP          = int64
     integer     , parameter :: LP          = c_bool
     integer     , parameter :: chunk       = 10000
     integer     , parameter :: N_TABLE     = 5*chunk

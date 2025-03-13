@@ -477,16 +477,26 @@ module prime_numbers
     end function primes_mask_ge7_bounds
 
     ! given 0 <= a,b,n < 2^64, computes (a*b)%n without overflow
-    elemental integer(WP) function safe_mul(a,b,n)
-       integer(WP), intent(in) :: a,b,n
+     elemental integer(WP) function safe_mul(a,b,n)
+       integer(WP), intent(in) :: a, b, n
+       integer(WP) :: x, y
 
-       integer(QP) :: qa,qn
+        x = a
+        y = b
+        safe_mul = 0 
 
-       ! 128bit
-       qa = int(a,QP)
-       qn = int(n,QP)
-
-       safe_mul = int(mod(qa*b,qn),WP)
+        ! Performing modular multiplication using bitwise method
+        do while (y > 0)
+            if (iand(y, 1_WP) /= 0) then
+                safe_mul = mod(safe_mul + x, n)  ! Add x if y's last bit is 1
+            end if
+            ! if (x > ) then
+            !     x = mod(x - (n - x), n)  
+            ! else
+                x = mod(2_WP * x, n)
+            ! end if
+            y = y / 2_WP  ! Halve y
+        end do
     end function safe_mul
 
     ! given 0 <= a,b,n < 2^64, computes (a^b)%n without overflow
