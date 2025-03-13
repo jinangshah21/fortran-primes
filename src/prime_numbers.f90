@@ -188,7 +188,7 @@ module prime_numbers
     elemental integer(WP) function odd_min_factor(n)
        integer(WP), intent(in) :: n
        integer(WP) :: m
-       m = int(min_factor(shifta(n,1)),WP)
+       m = int(min_factor(shifta(n,1_WP)),WP)
        odd_min_factor = merge(n,m,m==1_IP)
     end function odd_min_factor
 
@@ -258,7 +258,7 @@ module prime_numbers
         do while (pw/=0)
             if (iand(pw,1_WP)/=0) cur = mod(cur*aa,n)
             aa = int(mod(int(aa,WP)**2,n),IP)
-            pw = shifta(pw,1)
+            pw = shifta(pw,1_WP)
         end do
 
         if (cur==1_WP) then
@@ -280,18 +280,18 @@ module prime_numbers
     elemental integer(WP) function witnesses(n)
        integer(WP), intent(in) :: n
        integer(WP) :: i
-       i =      ieor(shifta(n,16), n) * int(z'45d9f3b',WP)
-       i =      ieor(shifta(i,16), i) * int(z'45d9f3b',WP)
-       i = iand(ieor(shifta(i,16), i), 255_WP)
+       i =      ieor(shifta(n,16_WP), n) * int(z'45d9f3b',WP)
+       i =      ieor(shifta(i,16_WP), i) * int(z'45d9f3b',WP)
+       i = iand(ieor(shifta(i,16_WP), i), 255_WP)
        witnesses = int(witnesses32(i+1_WP),WP)
     end function witnesses
 
     elemental integer(IP) function witnesses_for_64(n)
        integer(WP), intent(in) :: n
        integer(WP) :: i
-       i =      ieor(shifta(n,32), n) * int(z'45d9f3b3335b369',WP)
-       i =      ieor(shifta(i,32), i) * int(z'3335b36945d9f3b',WP)
-       i = iand(ieor(shifta(i,32), i), 16383_WP)
+       i =      ieor(shifta(n,32_WP), n) * int(z'45d9f3b3335b369',WP)
+       i =      ieor(shifta(i,32_WP), i) * int(z'3335b36945d9f3b',WP)
+       i = iand(ieor(shifta(i,32_WP), i), 16383_WP)
        witnesses_for_64 = witnesses64(i+1_WP)
     end function witnesses_for_64
 
@@ -527,7 +527,7 @@ module prime_numbers
        ! Find trailing zero bits and shift by them
        d = n-1_WP
        s = trailz(d)
-       d = shifta(d,s)
+       d = shifta(d, int(s,WP))
 
        cur = safe_exp(a,d,n)
        if (cur==1_WP) then
