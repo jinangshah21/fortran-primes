@@ -412,8 +412,10 @@ module prime_numbers
 
        n = wheel_index(limit)
        m = wheel_prime(m)
-       allocate(mask(n),source=.true._LP)
-
+       allocate(mask(n))
+       do i = 1, n
+         mask(i) = .true._LP
+       end do
        do i=1,wheel_index(isqrt(limit))
           if (mask(i)) then
              p = wheel_prime(i)
@@ -447,7 +449,10 @@ module prime_numbers
        whi = wheel_index(hi)
        m   = wheel_prime(whi)
 
-       allocate(mask(whi-wlo), source=.true._LP)
+       allocate(mask(whi-wlo))
+      do i = 1, (whi-wlo)
+          mask(i) = .true.
+      end do 
        if (hi<49) return
 
        small_mask = primes_mask_ge7_hi(isqrt(hi))
