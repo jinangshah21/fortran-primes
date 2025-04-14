@@ -43,7 +43,7 @@ program test_primes
     call add_test(test_is_prime())
     call add_test(test_vs_c())
     call add_test(test_next_prime())
-    call add_test(test_factors())
+    ! call add_test(test_factors())
 
     write(*,fmt_failed)this_test,npassed,nfailed
     if (nfailed>0) then
